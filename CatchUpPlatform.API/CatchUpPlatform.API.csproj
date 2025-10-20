@@ -24,7 +24,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Shared\Domain\" />
       <Folder Include="Shared\Interfaces\REST\" />
     </ItemGroup>
 
