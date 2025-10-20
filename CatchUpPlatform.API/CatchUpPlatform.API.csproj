@@ -7,6 +7,19 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <!-- Audit Trails related packages -->
+        <PackageReference Include="EntityFrameworkCore.CreatedUpdatedDate" Version="8.0.0"/>
+        <!-- Entity Framework Core related packages -->
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.10"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational.Design" Version="1.1.6"/>
+        <!-- MySQL Entity Framework Core related packages -->
+        <PackageReference Include="MySql.EntityFrameworkCore" Version="9.0.6"/>
+        <!-- Naming convention conversion related packages -->
+        <PackageReference Include="Humanizer" Version="2.14.1"/>
+        <!-- Swagger / OpenAPI related packages -->
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6"/>
+        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="9.0.6"/>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2"/>
     </ItemGroup>
 
