@@ -23,4 +23,9 @@
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Shared\Domain\" />
+      <Folder Include="Shared\Interfaces\REST\" />
+    </ItemGroup>
+
 </Project>
