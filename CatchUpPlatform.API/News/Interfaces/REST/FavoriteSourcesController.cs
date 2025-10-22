@@ -33,6 +33,13 @@ public class FavoriteSourcesController(
         return Ok(resource);
     }
 
+    [HttpPost]
+    [SwaggerOperation(
+        Summary = "Create Favorite Source",
+        Description = "Creates a new favorite source.",
+        OperationId = "CreateFavoriteSource")]
+    [SwaggerResponse(201, "Favorite source created successfully.", typeof(FavoriteSourceResource))]
+    [SwaggerResponse(400, "Invalid input data.")]
     public async Task<IActionResult> CreateFavoriteSource([FromBody] CreateFavoriteSourceResource resource)
     {
         var createFavoriteSourceCommand =
