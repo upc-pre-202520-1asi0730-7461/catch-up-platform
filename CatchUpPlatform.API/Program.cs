@@ -13,8 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers(options => 
-    options.Conventions.Add(new KebabCaseRouteNamingConvention()));
+// Localization Configuration
+builder.Services.AddLocalization();
+
+builder.Services.AddControllers(options =>
+        options.Conventions.Add(new KebabCaseRouteNamingConvention()))
+    .AddDataAnnotationsLocalization();
 
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen(options => options.EnableAnnotations());
@@ -58,6 +62,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Localization Configuration
+var supportedCultures = new[] { "en", "en-US", "es", "es-PE" };
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(supportedCultures[0])
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+app.UseRequestLocalization(localizationOptions);
+
 
 app.UseHttpsRedirection();
 
