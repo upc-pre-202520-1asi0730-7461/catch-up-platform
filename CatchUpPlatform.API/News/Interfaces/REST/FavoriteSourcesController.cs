@@ -3,7 +3,9 @@ using CatchUpPlatform.API.News.Domain.Model.Queries;
 using CatchUpPlatform.API.News.Domain.Services;
 using CatchUpPlatform.API.News.Interfaces.REST.Resources;
 using CatchUpPlatform.API.News.Interfaces.REST.Transform;
+using CatchUpPlatform.API.Resources;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CatchUpPlatform.API.News.Interfaces.REST;
@@ -14,7 +16,8 @@ namespace CatchUpPlatform.API.News.Interfaces.REST;
 [Tags("Favorite Sources")]
 public class FavoriteSourcesController(
     IFavoriteSourceCommandService favoriteSourceCommandService,
-    IFavoriteSourceQueryService favoriteSourceQueryService)
+    IFavoriteSourceQueryService favoriteSourceQueryService,
+    IStringLocalizer<SharedResource> localizer)
 : ControllerBase
 {
     
@@ -40,14 +43,20 @@ public class FavoriteSourcesController(
         OperationId = "CreateFavoriteSource")]
     [SwaggerResponse(201, "Favorite source created successfully.", typeof(FavoriteSourceResource))]
     [SwaggerResponse(400, "Invalid input data.")]
+    [SwaggerResponse(409, "Favorite source already exists.")]
     public async Task<IActionResult> CreateFavoriteSource([FromBody] CreateFavoriteSourceResource resource)
     {
-        var createFavoriteSourceCommand =
-            CreateFavoriteSourceCommandFromResourceAssembler.ToCommandFromResource(resource);
-        var result = await favoriteSourceCommandService.Handle(createFavoriteSourceCommand);
-        if (result is null) return BadRequest();
-        var favoriteSourceResource = FavoriteSourceResourceFromEntityAssembler.ToResourceFromEntity(result);
-        return CreatedAtAction(nameof(GetFavoriteSourceById), new { id = favoriteSourceResource.Id }, favoriteSourceResource);
+        try {
+            var createFavoriteSourceCommand =
+                CreateFavoriteSourceCommandFromResourceAssembler.ToCommandFromResource(resource);
+            var result = await favoriteSourceCommandService.Handle(createFavoriteSourceCommand);
+            if (result is null) return Conflict(localizer["NewsFavoriteSourceDuplicated"].Value);
+            var favoriteSourceResource = FavoriteSourceResourceFromEntityAssembler.ToResourceFromEntity(result);
+            return CreatedAtAction(nameof(GetFavoriteSourceById), new { id = favoriteSourceResource.Id }, favoriteSourceResource);
+        } catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
     
 }
