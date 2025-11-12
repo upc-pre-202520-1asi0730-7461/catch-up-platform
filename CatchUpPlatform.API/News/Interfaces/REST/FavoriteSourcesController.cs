@@ -55,6 +55,7 @@ public class FavoriteSourcesController(
             return CreatedAtAction(nameof(GetFavoriteSourceById), new { id = favoriteSourceResource.Id }, favoriteSourceResource);
         } catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
             return Conflict(localizer["NewsFavoriteSourceDuplicated"].Value);
         }
     }
